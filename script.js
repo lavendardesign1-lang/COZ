@@ -65,8 +65,11 @@ const products = [
         id: 7,
         name: 'Rocky Road',
         image: 'rocky road.png',
-        price: 31,
-        category: 'ROCKY ROAD'
+        category: 'ROCKY ROAD',
+        options: [
+            { name: '2 pieces', price: 12, note: '' },
+            { name: 'Full Box (24 pieces)', price: 135, note: 'طلب مسبق بيومين' }
+        ]
     }
 ];
 
@@ -104,10 +107,13 @@ function displayProducts() {
         if (product.options && product.options.length > 0) {
             optionsHTML = '<div class="product-options">';
             product.options.forEach((opt, idx) => {
-                optionsHTML += `<label><input type="radio" name="option-${product.id}" value="${idx}" ${idx === 0 ? 'checked' : ''}> ${opt.name}${opt.price > 0 ? ' +' + opt.price + ' AED' : ''}</label>`;
+                const noteHTML = opt.note ? `<div class="option-note">${opt.note}</div>` : '';
+                optionsHTML += `<label><input type="radio" name="option-${product.id}" value="${idx}" ${idx === 0 ? 'checked' : ''}> ${opt.name} - ${opt.price} AED ${noteHTML}</label>`;
             });
             optionsHTML += '</div>';
         }
+        
+        const displayPrice = product.options && product.options.length > 0 ? product.options[0].price : product.price;
         
         productCard.innerHTML = `
             <div class="product-image">
@@ -115,7 +121,7 @@ function displayProducts() {
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
-                <div class="product-price">${product.price} AED</div>
+                <div class="product-price">${displayPrice} AED</div>
                 ${optionsHTML}
                 <div class="product-actions">
                     <input type="number" id="qty-${product.id}" value="1" min="1" max="10">
@@ -148,9 +154,13 @@ function displayOrderMenu() {
             product.options.forEach(opt => {
                 const menuItem = document.createElement('div');
                 menuItem.className = 'menu-item';
+                const noteHTML = opt.note ? `<div class="menu-item-note">${opt.note}</div>` : '';
                 menuItem.innerHTML = `
-                    <span>${opt.name}</span>
-                    <span>${product.price + opt.price} AED</span>
+                    <div>
+                        <span>${opt.name}</span>
+                        ${noteHTML}
+                    </div>
+                    <span>${opt.price} AED</span>
                 `;
                 orderMenu.appendChild(menuItem);
             });
@@ -188,7 +198,7 @@ function addToCart(productId) {
     }
     
     // حساب السعر النهائي
-    const finalPrice = product.price + (selectedOption ? selectedOption.price : 0);
+    const finalPrice = selectedOption ? selectedOption.price : product.price;
     const itemName = selectedOption ? `${product.name} - ${selectedOption.name}` : product.name;
     
     // البحث عن المنتج في السلة
@@ -203,7 +213,8 @@ function addToCart(productId) {
             price: finalPrice,
             quantity: quantity,
             selectedOption: JSON.stringify(selectedOption),
-            originalProduct: product
+            originalProduct: product,
+            note: selectedOption ? selectedOption.note : ''
         });
     }
     
@@ -248,6 +259,8 @@ function displayCart() {
         const itemTotal = item.price * item.quantity;
         totalPrice += itemTotal;
         
+        const noteHTML = item.note ? `<div class="cart-item-note">⚠️ ${item.note}</div>` : '';
+        
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
         cartItem.innerHTML = `
@@ -255,6 +268,7 @@ function displayCart() {
             <div>
                 <div class="cart-item-price">${itemTotal} AED</div>
                 <div class="cart-item-quantity">الكمية: ${item.quantity}</div>
+                ${noteHTML}
             </div>
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.name}</div>
@@ -348,11 +362,13 @@ function displayOrderDetails(order) {
     
     let itemsHTML = '';
     order.items.forEach(item => {
+        const noteHTML = item.note ? `<div class="order-item-note">⚠️ ${item.note}</div>` : '';
         itemsHTML += `
             <div class="order-detail-row">
                 <span>${item.price * item.quantity} AED</span>
                 <span>${item.quantity} × ${item.name}</span>
             </div>
+            ${noteHTML}
         `;
     });
     
