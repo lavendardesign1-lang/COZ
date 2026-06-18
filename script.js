@@ -1,17 +1,17 @@
-// بيانات المنتجات - المنيو الحقيقي
+// بيانات المنتجات
 const products = [
     // V60
     {
         id: 1,
         name: 'V60',
-        image: 'V60.png',
+        image: 'V60.PNG',
         price: 26,
         category: 'V60',
         options: [
-            { name: 'Lollipop', price: 26 },
-            { name: 'Snickers', price: 26 },
-            { name: 'Tobacco', price: 26 },
-            { name: 'Crème brûlée', price: 26 }
+            { name: 'Lollipop', price: 26, image: 'Lollipop .PNG' },
+            { name: 'Snickers', price: 26, image: 'Snickers .PNG' },
+            { name: 'Tobacco', price: 26, image: 'Tobacco .PNG' },
+            { name: 'Crème brûlée', price: 26, image: 'Crème brûlé.PNG' }
         ]
     },
     
@@ -19,21 +19,21 @@ const products = [
     {
         id: 2,
         name: 'Ice Americano',
-        image: 'V60.png',
+        image: 'V60.PNG',
         price: 17,
         category: 'ESPRESSO'
     },
     {
         id: 3,
         name: 'Foame Espresso',
-        image: 'fome.png',
+        image: 'Fome.PNG',
         price: 25,
         category: 'ESPRESSO'
     },
     {
         id: 4,
         name: 'Dark Foame Espresso',
-        image: 'fome.png',
+        image: 'Fome.PNG',
         price: 27,
         category: 'ESPRESSO'
     },
@@ -42,12 +42,12 @@ const products = [
     {
         id: 5,
         name: 'Foame Matcha',
-        image: 'Matcha.png',
+        image: 'Matcha.PNG',
         price: 29,
         category: 'MATCHA',
         options: [
-            { name: 'Milk', price: 29 },
-            { name: 'Coconut Milk', price: 32 }
+            { name: 'Milk', price: 29, image: 'Matcha.PNG' },
+            { name: 'Coconut Milk', price: 32, image: 'Matcha.PNG' }
         ]
     },
     
@@ -55,35 +55,31 @@ const products = [
     {
         id: 6,
         name: 'Hibiscus',
-        image: 'V60.png',
+        image: 'V60.PNG',
         price: 13,
         category: 'HIBISCUS'
     },
     
-    // ROCKY ROAD
+    // DESERT
     {
         id: 7,
-        name: 'Rocky Road',
-        image: 'rocky road.png',
-        category: 'ROCKY ROAD',
+        name: 'Rocky road',
+        image: 'Rocky road .jpg',
+        category: 'DESERT',
         options: [
-            { name: '2 pieces', price: 12, note: '' },
-            { name: 'Full Box (24 pieces)', price: 135, note: 'طلب مسبق بيومين' }
+            { name: '2 pieces', price: 12, note: '', image: 'Rocky road .jpg' },
+            { name: 'Full Box (24 pieces)', price: 135, note: 'طلب مسبق بيومين', image: 'Rocky road .jpg' }
         ]
     }
 ];
 
-// سلة الشراء
 let cart = [];
 
-// تحميل المنتجات عند فتح الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     displayProducts();
-    displayOrderMenu();
     loadCartFromStorage();
 });
 
-// عرض المنتجات
 function displayProducts() {
     const productsList = document.getElementById('products-list');
     productsList.innerHTML = '';
@@ -91,7 +87,6 @@ function displayProducts() {
     let currentCategory = '';
 
     products.forEach(product => {
-        // إضافة عنوان الفئة إذا تغيرت
         if (product.category !== currentCategory) {
             currentCategory = product.category;
             const categoryTitle = document.createElement('div');
@@ -113,10 +108,11 @@ function displayProducts() {
         }
         
         const displayPrice = product.options && product.options.length > 0 ? product.options[0].price : product.price;
+        const displayImage = product.options && product.options.length > 0 ? product.options[0].image : product.image;
         
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'">
+                <img src="${displayImage}" alt="${product.name}" onerror="this.style.display='none'">
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
@@ -132,50 +128,6 @@ function displayProducts() {
     });
 }
 
-// عرض قائمة الطلب المبسطة
-function displayOrderMenu() {
-    const orderMenu = document.getElementById('order-menu');
-    orderMenu.innerHTML = '';
-    
-    let currentCategory = '';
-
-    products.forEach(product => {
-        // إضافة عنوان الفئة
-        if (product.category !== currentCategory) {
-            currentCategory = product.category;
-            const categoryTitle = document.createElement('div');
-            categoryTitle.className = 'menu-category';
-            categoryTitle.textContent = currentCategory;
-            orderMenu.appendChild(categoryTitle);
-        }
-        
-        if (product.options && product.options.length > 0) {
-            product.options.forEach(opt => {
-                const menuItem = document.createElement('div');
-                menuItem.className = 'menu-item';
-                const noteHTML = opt.note ? `<div class="menu-item-note">⚠️ ${opt.note}</div>` : '';
-                menuItem.innerHTML = `
-                    <div>
-                        <span>${opt.name}</span>
-                        ${noteHTML}
-                    </div>
-                    <span>${opt.price} AED</span>
-                `;
-                orderMenu.appendChild(menuItem);
-            });
-        } else {
-            const menuItem = document.createElement('div');
-            menuItem.className = 'menu-item';
-            menuItem.innerHTML = `
-                <span>${product.name}</span>
-                <span>${product.price} AED</span>
-            `;
-            orderMenu.appendChild(menuItem);
-        }
-    });
-}
-
-// فتح/إغلاق قائمة الطلب
 function toggleMenu() {
     const modal = document.getElementById('menu-modal');
     if (modal.style.display === 'none' || modal.style.display === '') {
@@ -185,7 +137,6 @@ function toggleMenu() {
     }
 }
 
-// إضافة المنتج للسلة
 function addToCart(productId) {
     const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
     const product = products.find(p => p.id === productId);
@@ -196,11 +147,9 @@ function addToCart(productId) {
         selectedOption = product.options[selectedIdx];
     }
     
-    // حساب السعر النهائي
     const finalPrice = selectedOption ? selectedOption.price : product.price;
     const itemName = selectedOption ? `${product.name} - ${selectedOption.name}` : product.name;
     
-    // البحث عن المنتج في السلة
     const existingItem = cart.find(item => item.id === productId && item.selectedOption === JSON.stringify(selectedOption));
     
     if (existingItem) {
@@ -212,7 +161,6 @@ function addToCart(productId) {
             price: finalPrice,
             quantity: quantity,
             selectedOption: JSON.stringify(selectedOption),
-            originalProduct: product,
             note: selectedOption ? selectedOption.note : ''
         });
     }
@@ -223,13 +171,11 @@ function addToCart(productId) {
     document.getElementById(`qty-${productId}`).value = 1;
 }
 
-// تحديث عدد العناصر في السلة
 function updateCartCount() {
     const count = cart.reduce((total, item) => total + item.quantity, 0);
     document.getElementById('cart-count').textContent = count;
 }
 
-// عرض السلة
 function toggleCart() {
     const modal = document.getElementById('cart-modal');
     if (modal.style.display === 'none' || modal.style.display === '') {
@@ -240,7 +186,6 @@ function toggleCart() {
     }
 }
 
-// عرض محتويات السلة
 function displayCart() {
     const cartItems = document.getElementById('cart-items');
     const total = document.getElementById('total');
@@ -279,7 +224,6 @@ function displayCart() {
     total.textContent = totalPrice;
 }
 
-// حذف المنتج من السلة
 function removeFromCart(index) {
     cart.splice(index, 1);
     saveCartToStorage();
@@ -287,7 +231,6 @@ function removeFromCart(index) {
     displayCart();
 }
 
-// الانتقال لصفحة الدفع
 function goToCheckout() {
     if (cart.length === 0) {
         alert('السلة فارغة!');
@@ -297,12 +240,10 @@ function goToCheckout() {
     document.getElementById('checkout-modal').style.display = 'block';
 }
 
-// إغلاق صفحة الدفع
 function closeCheckout() {
     document.getElementById('checkout-modal').style.display = 'none';
 }
 
-// معالجة نموذج الدفع
 document.addEventListener('DOMContentLoaded', function() {
     const checkoutForm = document.getElementById('checkout-form');
     if (checkoutForm) {
@@ -313,7 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// إتمام الطلب
 function completeOrder() {
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
@@ -325,11 +265,9 @@ function completeOrder() {
         return;
     }
     
-    // إنشاء رقم طلب عشوائي
     const orderId = 'ORD-' + Date.now();
     const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     
-    // حفظ الطلب
     const order = {
         orderId: orderId,
         name: name,
@@ -344,18 +282,15 @@ function completeOrder() {
     
     localStorage.setItem('lastOrder', JSON.stringify(order));
     
-    // إغلاق النوافذ المنبثقة وعرض تفاصيل الطلب
     document.getElementById('checkout-modal').style.display = 'none';
     displayOrderDetails(order);
     document.getElementById('order-modal').style.display = 'block';
     
-    // مسح السلة
     cart = [];
     saveCartToStorage();
     updateCartCount();
 }
 
-// عرض تفاصيل الطلب
 function displayOrderDetails(order) {
     const orderDetails = document.getElementById('order-details');
     
@@ -411,22 +346,18 @@ function displayOrderDetails(order) {
     `;
 }
 
-// إغلاق نافذة الطلب
 function closeOrder() {
     document.getElementById('order-modal').style.display = 'none';
 }
 
-// التمرير للمنتجات
 function scrollToProducts() {
     document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
 }
 
-// حفظ السلة في التخزين المحلي
 function saveCartToStorage() {
     localStorage.setItem('cozCart', JSON.stringify(cart));
 }
 
-// تحميل السلة من التخزين المحلي
 function loadCartFromStorage() {
     const savedCart = localStorage.getItem('cozCart');
     if (savedCart) {
@@ -435,7 +366,6 @@ function loadCartFromStorage() {
     }
 }
 
-// إغلاق النوافذ عند النقر خارجها
 window.onclick = function(event) {
     const cartModal = document.getElementById('cart-modal');
     const checkoutModal = document.getElementById('checkout-modal');

@@ -6,11 +6,12 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background: url('Coz background.png') no-repeat center center fixed;
+    background: linear-gradient(rgba(193, 154, 107, 0.1), rgba(193, 154, 107, 0.1)), url('Coz background .PNG') no-repeat center center fixed;
     background-size: cover;
     background-attachment: fixed;
     color: #333;
     line-height: 1.6;
+    background-color: #E8D4C4;
 }
 
 .container {
@@ -21,7 +22,7 @@ body {
 
 /* الرأس */
 .header {
-    background-color: #8B4513;
+    background-color: #6B4423;
     color: white;
     padding: 1rem 0;
     position: sticky;
@@ -69,16 +70,19 @@ body {
 }
 
 .nav a:hover, .menu-btn:hover {
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
-.menu-icon {
-    height: 30px;
-    width: auto;
+.menu-btn {
+    background-color: #C19A6B;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: #333;
+    font-weight: bold;
 }
 
 .cart-link {
-    background-color: #FFD700;
+    background-color: #C19A6B;
     color: #333;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -87,7 +91,7 @@ body {
 
 /* القسم الرئيسي */
 .hero {
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.9) 0%, rgba(210, 105, 30, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(107, 68, 35, 0.9) 0%, rgba(160, 120, 80, 0.9) 100%);
     color: white;
     padding: 80px 20px;
     text-align: center;
@@ -105,7 +109,7 @@ body {
 
 /* الأزرار */
 .btn-primary {
-    background-color: #FFD700;
+    background-color: #C19A6B;
     color: #333;
     padding: 12px 30px;
     border: none;
@@ -117,13 +121,13 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #FFC700;
+    background-color: #B8956A;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .btn-secondary {
-    background-color: #D2691E;
+    background-color: #A67857;
     color: white;
     padding: 8px 16px;
     border: none;
@@ -134,7 +138,7 @@ body {
 }
 
 .btn-secondary:hover {
-    background-color: #8B4513;
+    background-color: #6B4423;
 }
 
 /* المنتجات */
@@ -147,7 +151,7 @@ body {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 3rem;
-    color: #8B4513;
+    color: #6B4423;
 }
 
 .products-grid {
@@ -160,9 +164,9 @@ body {
     grid-column: 1 / -1;
     font-size: 1.3rem;
     font-weight: bold;
-    color: #8B4513;
+    color: #6B4423;
     padding: 1rem 0;
-    border-bottom: 2px solid #FFD700;
+    border-bottom: 2px solid #C19A6B;
 }
 
 .product-card {
@@ -181,7 +185,7 @@ body {
 .product-image {
     width: 100%;
     height: 150px;
-    background: linear-gradient(135deg, #D2691E, #FFD700);
+    background: linear-gradient(135deg, #A67857, #C19A6B);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,13 +206,13 @@ body {
 .product-name {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #8B4513;
+    color: #6B4423;
     margin-bottom: 0.5rem;
 }
 
 .product-price {
     font-size: 1.5rem;
-    color: #FFD700;
+    color: #C19A6B;
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -244,7 +248,7 @@ input[type="number"] {
     text-align: center;
 }
 
-/* النافذات المنبثقة */
+/* النوافذ المنبثقة */
 .modal {
     display: none;
     position: fixed;
@@ -276,6 +280,14 @@ input[type="number"] {
 
 .menu-modal-content {
     max-width: 400px;
+    padding: 1rem;
+}
+
+.menu-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
 }
 
 @keyframes slideIn {
@@ -302,34 +314,6 @@ input[type="number"] {
     color: black;
 }
 
-/* قائمة الطلب المبسطة */
-.menu-category {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #8B4513;
-    padding: 1rem 0 0.5rem;
-    border-bottom: 2px solid #FFD700;
-    margin-bottom: 1rem;
-}
-
-.menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem;
-    border-bottom: 1px solid #eee;
-    font-size: 0.95rem;
-}
-
-.menu-item:last-child {
-    border-bottom: none;
-}
-
-.menu-item span:last-child {
-    color: #FFD700;
-    font-weight: bold;
-}
-
 /* نموذج الدفع */
 .form-group {
     margin-bottom: 1.5rem;
@@ -339,7 +323,7 @@ input[type="number"] {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: bold;
-    color: #8B4513;
+    color: #6B4423;
 }
 
 .form-group input,
@@ -371,7 +355,7 @@ input[type="number"] {
 
 .cart-item-name {
     font-weight: bold;
-    color: #8B4513;
+    color: #6B4423;
 }
 
 .cart-item-quantity {
@@ -381,8 +365,14 @@ input[type="number"] {
 
 .cart-item-price {
     font-weight: bold;
-    color: #FFD700;
+    color: #C19A6B;
     margin-left: 1rem;
+}
+
+.cart-item-note {
+    color: #d9534f;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
 }
 
 .cart-summary {
@@ -394,7 +384,7 @@ input[type="number"] {
 }
 
 .cart-summary h3 {
-    color: #8B4513;
+    color: #6B4423;
     margin-bottom: 1rem;
 }
 
@@ -418,6 +408,12 @@ input[type="number"] {
     justify-content: space-between;
     padding: 0.5rem 0;
     border-bottom: 1px solid #ddd;
+}
+
+.order-item-note {
+    color: #d9534f;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
 }
 
 .order-status {
