@@ -112,7 +112,7 @@ function displayProducts() {
         
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${displayImage}" alt="${product.name}" onerror="this.style.display='none'">
+                <img src="${displayImage}?v=2" alt="${product.name}" onerror="this.style.display='none'">
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
