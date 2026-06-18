@@ -4,64 +4,69 @@ const products = [
     {
         id: 1,
         name: 'V60',
-        description: 'قهوة V60 مميزة',
+        image: 'V60.png',
         price: 26,
-        emoji: '☕',
-        category: 'V60'
+        category: 'V60',
+        options: [
+            { name: 'Lollipop', price: 0 },
+            { name: 'Snickers', price: 0 },
+            { name: 'Tobacco', price: 0 },
+            { name: 'Crème brûlée', price: 0 }
+        ]
     },
     
     // ESPRESSO
     {
         id: 2,
         name: 'Ice Americano',
-        description: 'أمريكانو بارد منعش',
+        image: 'V60.png',
         price: 17,
-        emoji: '🧊',
         category: 'ESPRESSO'
     },
     {
         id: 3,
         name: 'Foame Espresso',
-        description: 'إسبريسو مع رغوة',
+        image: 'come.png',
         price: 25,
-        emoji: '☕',
         category: 'ESPRESSO'
     },
     {
         id: 4,
         name: 'Dark Foame Espresso',
-        description: 'إسبريسو داكن مع رغوة',
+        image: 'come.png',
         price: 27,
-        emoji: '☕',
         category: 'ESPRESSO'
     },
     
     // MATCHA
     {
         id: 5,
-        name: 'Foame Matcha - Milk',
-        description: 'ماتشا مع حليب (حليب عادي)',
+        name: 'Foame Matcha',
+        image: 'Matcha.png',
         price: 29,
-        emoji: '🍵',
-        category: 'MATCHA'
-    },
-    {
-        id: 6,
-        name: 'Foame Matcha - Coconut',
-        description: 'ماتشا مع حليب جوز الهند',
-        price: 32,
-        emoji: '🍵',
-        category: 'MATCHA'
+        category: 'MATCHA',
+        options: [
+            { name: 'Milk', price: 0 },
+            { name: 'Coconut Milk', price: 3 }
+        ]
     },
     
-    // SLASH
+    // HIBISCUS
+    {
+        id: 6,
+        name: 'Hibiscus',
+        image: 'V60.png',
+        price: 13,
+        category: 'HIBISCUS'
+    },
+    
+    // ROCKY ROAD
     {
         id: 7,
-        name: 'Hibiscus',
-        description: 'مشروب الكركديه المنعش',
-        price: 13,
-        emoji: '🌺',
-        category: 'SLASH'
+        name: 'Rocky Road',
+        image: 'rocky road.png',
+        price: 31,
+        category: 'ROCKY ROAD'
     }
 ];
 
@@ -71,6 +76,7 @@ let cart = [];
 // تحميل المنتجات عند فتح الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     displayProducts();
+    displayOrderMenu();
     loadCartFromStorage();
 });
 
@@ -93,12 +99,24 @@ function displayProducts() {
         
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
+        
+        let optionsHTML = '';
+        if (product.options && product.options.length > 0) {
+            optionsHTML = '<div class="product-options">';
+            product.options.forEach((opt, idx) => {
+                optionsHTML += `<label><input type="radio" name="option-${product.id}" value="${idx}" ${idx === 0 ? 'checked' : ''}> ${opt.name}${opt.price > 0 ? ' +' + opt.price + ' AED' : ''}</label>`;
+            });
+            optionsHTML += '</div>';
+        }
+        
         productCard.innerHTML = `
-            <div class="product-image">${product.emoji}</div>
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" onerror="this.textContent='${product.name}'">
+            </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
-                <div class="product-description">${product.description}</div>
                 <div class="product-price">${product.price} AED</div>
+                ${optionsHTML}
                 <div class="product-actions">
                     <input type="number" id="qty-${product.id}" value="1" min="1" max="10">
                     <button class="btn-secondary" onclick="addToCart(${product.id})">أضف</button>
@@ -109,20 +127,83 @@ function displayProducts() {
     });
 }
 
+// عرض قائمة الطلب المبسطة
+function displayOrderMenu() {
+    const orderMenu = document.getElementById('order-menu');
+    orderMenu.innerHTML = '';
+    
+    let currentCategory = '';
+
+    products.forEach(product => {
+        // إضافة عنوان الفئة
+        if (product.category !== currentCategory) {
+            currentCategory = product.category;
+            const categoryTitle = document.createElement('div');
+            categoryTitle.className = 'menu-category';
+            categoryTitle.textContent = currentCategory;
+            orderMenu.appendChild(categoryTitle);
+        }
+        
+        if (product.options && product.options.length > 0) {
+            product.options.forEach(opt => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `
+                    <span>${opt.name}</span>
+                    <span>${product.price + opt.price} AED</span>
+                `;
+                orderMenu.appendChild(menuItem);
+            });
+        } else {
+            const menuItem = document.createElement('div');
+            menuItem.className = 'menu-item';
+            menuItem.innerHTML = `
+                <span>${product.name}</span>
+                <span>${product.price} AED</span>
+            `;
+            orderMenu.appendChild(menuItem);
+        }
+    });
+}
+
+// فتح/إغلاق قائمة الطلب
+function toggleMenu() {
+    const modal = document.getElementById('menu-modal');
+    if (modal.style.display === 'none' || modal.style.display === '') {
+        modal.style.display = 'block';
+    } else {
+        modal.style.display = 'none';
+    }
+}
+
 // إضافة المنتج للسلة
 function addToCart(productId) {
     const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
     const product = products.find(p => p.id === productId);
     
+    let selectedOption = null;
+    if (product.options && product.options.length > 0) {
+        const selectedIdx = parseInt(document.querySelector(`input[name="option-${productId}"]:checked`).value);
+        selectedOption = product.options[selectedIdx];
+    }
+    
+    // حساب السعر النهائي
+    const finalPrice = product.price + (selectedOption ? selectedOption.price : 0);
+    const itemName = selectedOption ? `${product.name} - ${selectedOption.name}` : product.name;
+    
     // البحث عن المنتج في السلة
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => item.id === productId && item.selectedOption === JSON.stringify(selectedOption));
     
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
         cart.push({
-            ...product,
-            quantity: quantity
+            id: productId,
+            name: itemName,
+            price: finalPrice,
+            quantity: quantity,
+            selectedOption: JSON.stringify(selectedOption),
+            originalProduct: product
         });
     }
     
@@ -344,6 +425,7 @@ window.onclick = function(event) {
     const cartModal = document.getElementById('cart-modal');
     const checkoutModal = document.getElementById('checkout-modal');
     const orderModal = document.getElementById('order-modal');
+    const menuModal = document.getElementById('menu-modal');
     
     if (event.target === cartModal) {
         cartModal.style.display = 'none';
@@ -353,5 +435,8 @@ window.onclick = function(event) {
     }
     if (event.target === orderModal) {
         orderModal.style.display = 'none';
+    }
+    if (event.target === menuModal) {
+        menuModal.style.display = 'none';
     }
 }

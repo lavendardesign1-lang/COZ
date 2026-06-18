@@ -11,12 +11,16 @@
     <header class="header">
         <div class="container">
             <div class="logo-section">
-                <img src="https://github.com/lavendardesign1-lang/COZ/blob/main/logo?raw=true" alt="COZ Logo" class="logo-img">
+                <img src="Coz logo.png" alt="COZ Logo" class="logo-img">
                 <h1 class="logo-text">COZ</h1>
             </div>
             <nav class="nav">
                 <a href="#home">الرئيسية</a>
-                <a href="#products">المنتجات</a>
+                <a href="#products" onclick="scrollToProducts()">بدء الطلب</a>
+                <div class="menu-btn" onclick="toggleMenu()">
+                    <img src="Coz menu.png" alt="Menu" class="menu-icon">
+                    <span class="cart-link">القائمة</span>
+                </div>
                 <a href="#cart" onclick="toggleCart()" class="cart-link">سلة الشراء (<span id="cart-count">0</span>)</a>
             </nav>
         </div>
@@ -27,7 +31,7 @@
         <div class="hero-content">
             <h1>أهلاً بك في COZ ☕</h1>
             <p>أفضل قهوة بأسعار رائعة</p>
-            <button onclick="scrollToProducts()" class="btn-primary">اكتشف المنتجات</button>
+            <button onclick="scrollToProducts()" class="btn-primary">بدء الطلب</button>
         </div>
     </section>
 
@@ -49,6 +53,15 @@
                 <h3>الإجمالي: <span id="total">0</span> AED</h3>
                 <button onclick="goToCheckout()" class="btn-primary">الدفع</button>
             </div>
+        </div>
+    </div>
+
+    <!-- قائمة الطلب المبسطة -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content menu-modal-content">
+            <span class="close" onclick="toggleMenu()">&times;</span>
+            <h2>قائمة الطلب</h2>
+            <div id="order-menu"></div>
         </div>
     </div>
 
@@ -75,8 +88,7 @@
                     <select id="payment-method" required>
                         <option>اختر طريقة الدفع</option>
                         <option>عند الاستلام</option>
-                        <option>بطاقة ائتمان</option>
-                        <option>تحويل بنكي</option>
+                        <option>Zain Pay</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-primary">تأكيد الطلب</button>

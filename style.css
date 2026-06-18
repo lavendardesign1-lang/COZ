@@ -6,7 +6,9 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+    background: url('Coz background.png') no-repeat center center fixed;
+    background-size: cover;
+    background-attachment: fixed;
     color: #333;
     line-height: 1.6;
 }
@@ -34,7 +36,18 @@ body {
     align-items: center;
 }
 
-.logo {
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.logo-text {
     font-size: 1.8rem;
     font-weight: bold;
 }
@@ -42,22 +55,39 @@ body {
 .nav {
     display: flex;
     gap: 2rem;
+    align-items: center;
 }
 
-.nav a {
+.nav a, .menu-btn {
     color: white;
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.nav a:hover {
+.nav a:hover, .menu-btn:hover {
     opacity: 0.7;
+}
+
+.menu-icon {
+    height: 30px;
+    width: auto;
+}
+
+.cart-link {
+    background-color: #FFD700;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
 /* القسم الرئيسي */
 .hero {
-    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.9) 0%, rgba(210, 105, 30, 0.9) 100%);
     color: white;
     padding: 80px 20px;
     text-align: center;
@@ -110,7 +140,7 @@ body {
 /* المنتجات */
 .products {
     padding: 60px 20px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 .products h2 {
@@ -124,6 +154,15 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
+}
+
+.category-title {
+    grid-column: 1 / -1;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #8B4513;
+    padding: 1rem 0;
+    border-bottom: 2px solid #FFD700;
 }
 
 .product-card {
@@ -141,12 +180,18 @@ body {
 
 .product-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     background: linear-gradient(135deg, #D2691E, #FFD700);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .product-info {
@@ -161,17 +206,28 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.product-description {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
 .product-price {
     font-size: 1.5rem;
     color: #FFD700;
     font-weight: bold;
     margin-bottom: 1rem;
+}
+
+.product-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-options label {
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.product-options input[type="radio"] {
+    margin-left: 0.5rem;
 }
 
 .product-actions {
@@ -218,6 +274,10 @@ input[type="number"] {
     animation: slideIn 0.3s;
 }
 
+.menu-modal-content {
+    max-width: 400px;
+}
+
 @keyframes slideIn {
     from {
         transform: translateY(-50px);
@@ -240,6 +300,34 @@ input[type="number"] {
 .close:hover,
 .close:focus {
     color: black;
+}
+
+/* قائمة الطلب المبسطة */
+.menu-category {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #8B4513;
+    padding: 1rem 0 0.5rem;
+    border-bottom: 2px solid #FFD700;
+    margin-bottom: 1rem;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item span:last-child {
+    color: #FFD700;
+    font-weight: bold;
 }
 
 /* نموذج الدفع */
@@ -370,5 +458,10 @@ input[type="number"] {
     .modal-content {
         width: 95%;
         margin: 20% auto;
+    }
+
+    .header .container {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
