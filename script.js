@@ -8,10 +8,10 @@ const products = [
         price: 26,
         category: 'V60',
         options: [
-            { name: 'Lollipop', price: 0 },
-            { name: 'Snickers', price: 0 },
-            { name: 'Tobacco', price: 0 },
-            { name: 'Crème brûlée', price: 0 }
+            { name: 'Lollipop', price: 26 },
+            { name: 'Snickers', price: 26 },
+            { name: 'Tobacco', price: 26 },
+            { name: 'Crème brûlée', price: 26 }
         ]
     },
     
@@ -26,14 +26,14 @@ const products = [
     {
         id: 3,
         name: 'Foame Espresso',
-        image: 'come.png',
+        image: 'fome.png',
         price: 25,
         category: 'ESPRESSO'
     },
     {
         id: 4,
         name: 'Dark Foame Espresso',
-        image: 'come.png',
+        image: 'fome.png',
         price: 27,
         category: 'ESPRESSO'
     },
@@ -46,8 +46,8 @@ const products = [
         price: 29,
         category: 'MATCHA',
         options: [
-            { name: 'Milk', price: 0 },
-            { name: 'Coconut Milk', price: 3 }
+            { name: 'Milk', price: 29 },
+            { name: 'Coconut Milk', price: 32 }
         ]
     },
     
@@ -107,8 +107,7 @@ function displayProducts() {
         if (product.options && product.options.length > 0) {
             optionsHTML = '<div class="product-options">';
             product.options.forEach((opt, idx) => {
-                const noteHTML = opt.note ? `<div class="option-note">${opt.note}</div>` : '';
-                optionsHTML += `<label><input type="radio" name="option-${product.id}" value="${idx}" ${idx === 0 ? 'checked' : ''}> ${opt.name} - ${opt.price} AED ${noteHTML}</label>`;
+                optionsHTML += `<label><input type="radio" name="option-${product.id}" value="${idx}" ${idx === 0 ? 'checked' : ''}> ${opt.name}</label>`;
             });
             optionsHTML += '</div>';
         }
@@ -117,7 +116,7 @@ function displayProducts() {
         
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.textContent='${product.name}'">
+                <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'">
             </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
@@ -154,7 +153,7 @@ function displayOrderMenu() {
             product.options.forEach(opt => {
                 const menuItem = document.createElement('div');
                 menuItem.className = 'menu-item';
-                const noteHTML = opt.note ? `<div class="menu-item-note">${opt.note}</div>` : '';
+                const noteHTML = opt.note ? `<div class="menu-item-note">⚠️ ${opt.note}</div>` : '';
                 menuItem.innerHTML = `
                     <div>
                         <span>${opt.name}</span>
@@ -401,8 +400,8 @@ function displayOrderDetails(order) {
         <hr style="margin: 1rem 0;">
         <strong>المنتجات:</strong>
         ${itemsHTML}
-        <div class="order-detail-row" style="border-top: 2px solid #8B4513; margin-top: 1rem; padding-top: 1rem;">
-            <strong style="color: #FFD700; font-size: 1.2rem;">${order.total} AED</strong>
+        <div class="order-detail-row" style="border-top: 2px solid #6B4423; margin-top: 1rem; padding-top: 1rem;">
+            <strong style="color: #C19A6B; font-size: 1.2rem;">${order.total} AED</strong>
             <strong>الإجمالي:</strong>
         </div>
         <div class="order-status">
