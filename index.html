@@ -4,106 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COZ - متجر القهوة</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- الرأس -->
-    <header class="header">
-        <div class="container">
-            <div class="logo-section">
-                <img src="Coz logo.PNG?v=2" alt="COZ Logo" class="logo-img">
-                <h1 class="logo-text">COZ</h1>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="Coz logo.PNG" alt="شعار COZ">
+                <h1>COZ</h1>
             </div>
-            <nav class="nav">
-                <a href="#home">الرئيسية</a>
-                <a href="#products" onclick="scrollToProducts()">بدء الطلب</a>
-                <div class="menu-btn" onclick="toggleMenu()">
-                    <span>القائمة</span>
-                </div>
-                <a href="#cart" onclick="toggleCart()" class="cart-link">سلة الشراء (<span id="cart-count">0</span>)</a>
+            <nav>
+                <button onclick="showHome()">الرئيسية</button>
+                <button onclick="showProducts()">الطلب</button>
+                <button onclick="showMenu()">القائمة</button>
+                <button onclick="showCart()" class="cart-btn">السلة (<span id="cart-count">0</span>)</button>
             </nav>
         </div>
     </header>
 
-    <!-- القسم الرئيسي -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>أهلاً بك في COZ ☕</h1>
-            <p>أفضل قهوة بأسعار رائعة</p>
-            <button onclick="scrollToProducts()" class="btn-primary">بدء الطلب</button>
-        </div>
-    </section>
-
-    <!-- المنتجات -->
-    <section id="products" class="products">
-        <div class="container">
-            <h2>قائمة المنتجات</h2>
-            <div class="products-grid" id="products-list"></div>
-        </div>
-    </section>
-
-    <!-- سلة الشراء -->
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="toggleCart()">&times;</span>
-            <h2>سلة الشراء</h2>
-            <div id="cart-items"></div>
-            <div class="cart-summary">
-                <h3>الإجمالي: <span id="total">0</span> AED</h3>
-                <button onclick="goToCheckout()" class="btn-primary">الدفع</button>
+    <main>
+        <section id="home-section" class="section active">
+            <div class="hero">
+                <h2>أهلاً بك في COZ ☕</h2>
+                <p>أفضل قهوة بأسعار رائعة</p>
+                <button onclick="showProducts()" class="btn">ابدأ الطلب</button>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- قائمة الطلب المبسطة -->
-    <div id="menu-modal" class="modal">
-        <div class="modal-content menu-modal-content">
-            <span class="close" onclick="toggleMenu()">&times;</span>
-            <h2>قائمة الطلب</h2>
-            <img src="Coz menu.PNG?v=2" alt="Menu" class="menu-image">
-        </div>
-    </div>
+        <section id="products-section" class="section">
+            <div class="container">
+                <h2>قائمة المنتجات</h2>
+                <div id="products-container"></div>
+            </div>
+        </section>
 
-    <!-- صفحة الدفع -->
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeCheckout()">&times;</span>
-            <h2>إتمام الطلب</h2>
-            <form id="checkout-form">
-                <div class="form-group">
-                    <label>الاسم الكامل:</label>
-                    <input type="text" id="name" required>
+        <section id="menu-section" class="section">
+            <div class="container menu-container">
+                <span onclick="closeMenu()" class="close-btn">&times;</span>
+                <img src="Coz menu.PNG" alt="قائمة المنتجات" class="menu-image">
+            </div>
+        </section>
+
+        <section id="cart-section" class="section">
+            <div class="container">
+                <span onclick="closeCart()" class="close-btn">&times;</span>
+                <h2>سلة الشراء</h2>
+                <div id="cart-items"></div>
+                <div class="cart-total">
+                    <h3>الإجمالي: <span id="total">0</span> AED</h3>
+                    <button onclick="goCheckout()" class="btn">الدفع</button>
                 </div>
-                <div class="form-group">
-                    <label>رقم الهاتف:</label>
-                    <input type="tel" id="phone" required>
-                </div>
-                <div class="form-group">
-                    <label>العنوان:</label>
-                    <input type="text" id="address" required>
-                </div>
-                <div class="form-group">
-                    <label>طريقة الدفع:</label>
-                    <select id="payment-method" required>
+            </div>
+        </section>
+
+        <section id="checkout-section" class="section">
+            <div class="container">
+                <span onclick="closeCheckout()" class="close-btn">&times;</span>
+                <h2>إتمام الطلب</h2>
+                <form id="checkout-form">
+                    <input type="text" id="name" placeholder="الاسم الكامل" required>
+                    <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+                    <input type="text" id="address" placeholder="العنوان" required>
+                    <select id="payment" required>
                         <option>اختر طريقة الدفع</option>
                         <option>عند الاستلام</option>
                         <option>Zain Pay</option>
                     </select>
-                </div>
-                <button type="submit" class="btn-primary">تأكيد الطلب</button>
-            </form>
-        </div>
-    </div>
+                    <button type="submit" class="btn">تأكيد الطلب</button>
+                </form>
+            </div>
+        </section>
 
-    <!-- متابعة الطلبات -->
-    <div id="order-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeOrder()">&times;</span>
-            <h2>تفاصيل طلبك</h2>
-            <div id="order-details"></div>
-        </div>
-    </div>
+        <section id="order-section" class="section">
+            <div class="container">
+                <span onclick="closeOrder()" class="close-btn">&times;</span>
+                <div id="order-details"></div>
+            </div>
+        </section>
+    </main>
 
-    <script src="script.js?v=2"></script>
+    <script src="app.js"></script>
 </body>
 </html>
